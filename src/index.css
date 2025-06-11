@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-gradient-to-b from-gray-100 to-white dark:from-gray-900 dark:to-gray-800;
+  @apply text-gray-800 dark:text-gray-200;
+  @apply font-sans antialiased;
+  @apply min-h-screen;
+  @apply flex flex-col;
+  @apply items-center;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-progress {
+  animation: progress 0.5s ease-in-out forwards;
+}
