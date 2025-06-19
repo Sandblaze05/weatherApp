@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 body {
-  @apply bg-gradient-to-b from-gray-100 to-white dark:from-gray-900 dark:to-gray-800;
-  @apply text-gray-800 dark:text-gray-200;
+  @apply bg-gradient-to-b from-gray-900 to-gray-800;
+  @apply text-gray-200;
   @apply font-sans antialiased;
   @apply min-h-screen;
   @apply flex flex-col;
@@ -20,4 +20,14 @@ body {
 
 .animate-progress {
   animation: progress 0.5s ease-in-out forwards;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1s infinite linear;
 }

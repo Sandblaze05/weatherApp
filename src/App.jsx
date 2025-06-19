@@ -2,16 +2,11 @@ import React, { useEffect } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { useState } from "react";
 import ProgressBar from "./components/ProgressBar";
+import WeatherContent from "./components/WeatherContent";
+import { Suspense } from "react";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const API_URL = "http://api.weatherapi.com/v1/";
-// const API_OPTIONS = {
-//   method: 'GET',
-//   headers: {
-//     accept: 'application/json',
-//     Authorization: `Bearer ${API_KEY}`,
-//   }
-// }
 
 const App = () => {
   const [suggestion, setSuggestion] = useState([
@@ -29,6 +24,7 @@ const App = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [weatherData, setWeatherData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -37,13 +33,14 @@ const App = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${API_URL}current.json?key=${API_KEY}&q=${selectedCity}&aqi=no`
+          `${API_URL}forecast.json?key=${API_KEY}&q=${selectedCity}&aqi=no`
         );
         !response.ok &&
           console.error("Error fetching weather data:", response.statusText);
         const data = await response.json();
-        console.log("Weather data:", data.current);
-        setWeatherData({ ...data.current, city: selectedCity });
+        console.log("Weather data:", data);
+        setWeatherData({ ...data.current, city: data.location.name });
+        setForecastData(data.forecast);
         setLoading(false);
         setError(null);
       } catch (err) {
@@ -74,7 +71,7 @@ const App = () => {
     <>
       <ProgressBar loading={loading} />
       <header className=" h-20 shadow-xl shadow-gray-800 bg-gray-800 w-screen p-4 flex justify-items-stretch">
-        <h1 className="font-bold text-3xl mt-3">
+        <h1 className="font-bold sm:text-3xl text-xl mt-3">
           Weather
           <span className="bg-gradient-to-br from-gray-400 to-gray-600 inline-block text-transparent bg-clip-text">
             App
@@ -86,7 +83,7 @@ const App = () => {
           value={selectedCity}
           onChange={handleCityChange}
           onInputChange={handleInputChange}
-          className="w-[200px] ml-auto"
+          className="sm:w-[200px] sm:visible ml-auto"
           renderInput={(params) => (
             <TextField
               {...params}
@@ -131,27 +128,13 @@ const App = () => {
       </header>
 
       <div className="flex flex-col items-center justify-center mt-4 ">
-        {weatherData ? (
-          <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg mt-4 flex gap-4">
-            <img
-              src={weatherData.condition.icon}
-              alt={weatherData.condition.text}
-              className="w-16 h-16 mb-4"
-            />
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-bold mb-2">
-                Weather in {weatherData.city}
-              </h2>
-              <p>Temperature: {weatherData.temp_c} °C</p>
-              <p>Condition: {weatherData.condition.text}</p>
-              <p>Humidity: {weatherData.humidity}%</p>
-              <p>Wind Speed: {weatherData.wind_kph} kph</p>
-            </div>
-          </div>
+        {!weatherData ? (
+          <div className="text-transparent bg-gradient-to-r from-[#eee] from-40% via-[#9a9999] via-50% to-[#eee] to-60% bg-clip-text mt-4 bg-size-[300%] animate-shimmer" style={{ backgroundPositionX: '100%' }}>Select a city to see the weather</div>
         ) : (
-          <div className="text-gray-400 mt-4">
-            Select a city to see the weather
-          </div>
+          <WeatherContent
+            weatherData={weatherData}
+            forecastData={forecastData}
+          />
         )}
       </div>
     </>
