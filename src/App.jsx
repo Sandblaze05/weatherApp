@@ -72,7 +72,7 @@ const App = () => {
   return (
     <>
       <ProgressBar loading={loading} />
-      <header className=" h-20 shadow-xl shadow-gray-800 bg-gray-800 w-screen p-4 flex justify-items-stretch">
+      <header className="sticky top-0 h-20 shadow-xl shadow-gray-800 bg-gray-800 w-screen p-4 flex justify-items-stretch">
         <h1 className="font-bold sm:text-3xl text-xl mt-3">
           Weather
           <span className="bg-gradient-to-br from-gray-400 to-gray-600 inline-block text-transparent bg-clip-text">
