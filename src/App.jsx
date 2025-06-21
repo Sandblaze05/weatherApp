@@ -31,6 +31,8 @@ const App = () => {
   useEffect(() => {
     const fetchWeatherData = async () => {
       setLoading(true);
+      setWeatherData(null);
+      setForecastData(null);
       try {
         const response = await fetch(
           `${API_URL}forecast.json?key=${API_KEY}&q=${selectedCity}&aqi=no`

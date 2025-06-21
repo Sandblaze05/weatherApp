@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Sunrise, Sunset } from "lucide-react";
+import { Sunrise, Sunset, Droplets } from "lucide-react";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -101,7 +101,26 @@ const WeatherContent = ({ weatherData, forecastData }) => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="bg-gray-800 w-80 h-60 p-4 rounded-2xl"
           >
-            yes
+            <div className="flex justify-between items-center h-10 border-b-gray-400 border-b-1">
+              <strong><Droplets className="inline"/> Precipitation</strong>
+              <strong>{forecastData.forecastday[0].day.totalprecip_mm} mm</strong>
+            </div>
+            <div className="flex justify-between items-center h-10 border-b-gray-400 border-b-1">
+              <strong><Droplets className="inline"/> Visibility</strong>
+              <strong>{forecastData.forecastday[0].day.avgvis_km} km</strong>
+            </div>
+            <div className="flex justify-between items-center h-10 border-b-gray-400 border-b-1">
+              <strong><Droplets className="inline"/> Wind Speed (Max)</strong>
+              <strong>{forecastData.forecastday[0].day.maxwind_kph} kmph</strong>
+            </div>
+            <div className="flex justify-between items-center h-10 border-b-gray-400 border-b-1">
+              <strong><Droplets className="inline"/> Humidity (Avg)</strong>
+              <strong>{forecastData.forecastday[0].day.avghumidity}%</strong>
+            </div>
+            <div className="flex justify-between items-center h-10 border-b-gray-400 border-b-1">
+              <strong><Droplets className="inline"/> Precipitation</strong>
+              <strong>{forecastData.forecastday[0].day.daily_chance_of_rain}%</strong>
+            </div>
           </motion.div>
         </div>
       </AnimatePresence>
