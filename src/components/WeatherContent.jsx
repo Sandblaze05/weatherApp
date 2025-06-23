@@ -174,7 +174,7 @@ const WeatherContent = ({ weatherData, forecastData }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.5 }}
-          className="bg-gray-800 w-[90%] mt-4 h-60 p-4 rounded-2xl shadow-lg"
+          className="bg-gray-800/80 w-[90%] mt-4 h-60 p-4 rounded-2xl shadow-lg"
         >
           <div className="flex relative gap-3 h-full w-full">
             <div
@@ -182,14 +182,16 @@ const WeatherContent = ({ weatherData, forecastData }) => {
               ref={scrollRef}
             >
               {forecastData.forecastday[0].hour.map((day, idx) => (
-                <div
+                <motion.div
+                  whileHover={{ scale: 0.97 }}
+                  whileTap={{ scale:0.95 }}
                   key={idx}
-                  className="flex flex-col min-w-[100px] h-full items-center bg-gray-700 py-3 rounded-md"
+                  className="flex flex-col min-w-[100px] h-full items-center bg-gray-700 py-3 rounded-md shadow-lg"
                 >
                   <p className="text-sm mb-1">{day.time.slice(10, 16)}</p>
                   <img src={day.condition.icon} alt="condition" />
                   <div className="flex overflow-hidden justify-center items-center w-full h-full">
-                    <Thermometer className="w-[20px] h-[20px]"/>
+                    <Thermometer className="w-[20px] h-[20px]" />
                     <p className="font-medium text-lg antialiased">
                       {day.temp_c}°C
                     </p>
@@ -198,21 +200,27 @@ const WeatherContent = ({ weatherData, forecastData }) => {
                     <Droplet className="w-[15px] h-[15px] fill-white/50 text-white/50" />
                     <p>{day.chance_of_rain}%</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-            <div
+            <motion.div
+              initial={{ scale: 1 }}
+              whileTap={{ scale: 0.9, x: -0.9 }}
+              transition={{ type: "spring", damping: 20 }}
               className="absolute w-5 h-full left-0 top-1/2 transform -translate-y-1/2 rounded-r-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center hover:cursor-pointer hover:bg-gray-800 transition-colors"
               onClick={handleLeft}
             >
               {"<"}
-            </div>
-            <div
+            </motion.div>
+            <motion.div
+              initial={{ scale: 1 }}
+              whileTap={{ scale: 0.9, x: 0.9 }}
+              transition={{ type: "spring", damping: 20 }}
               className="absolute w-5 h-full right-0 top-1/2 transform -translate-y-1/2 rounded-l-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center hover:cursor-pointer hover:bg-gray-800 transition-colors"
               onClick={handleRight}
             >
               {">"}
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </AnimatePresence>
