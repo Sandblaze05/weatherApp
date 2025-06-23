@@ -19,7 +19,7 @@ body {
 }
 
 .animate-progress {
-  animation: progress 0.5s ease-in-out forwards;
+  animation: progress 1.5s ease-in-out forwards;
 }
 
 @keyframes shimmer {

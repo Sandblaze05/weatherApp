@@ -6,7 +6,7 @@ import WeatherContent from "./components/WeatherContent";
 import { Suspense } from "react";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-const API_URL = "http://api.weatherapi.com/v1/";
+const API_URL = "https://api.weatherapi.com/v1/";
 
 const App = () => {
   const [suggestion, setSuggestion] = useState([
@@ -30,10 +30,10 @@ const App = () => {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      setLoading(true);
       setWeatherData(null);
       setForecastData(null);
       try {
+        setLoading(true);
         const response = await fetch(
           `${API_URL}forecast.json?key=${API_KEY}&q=${selectedCity}&aqi=no`
         );
@@ -72,7 +72,7 @@ const App = () => {
   return (
     <>
       <ProgressBar loading={loading} />
-      <header className="sticky top-0 h-20 shadow-xl shadow-gray-800 bg-gray-800 w-screen p-4 flex justify-items-stretch">
+      <header className="sticky z-100 top-0 h-20 shadow-xl shadow-gray-800 bg-gray-800 w-screen p-4 flex justify-items-stretch">
         <h1 className="font-bold sm:text-3xl text-xl mt-3">
           Weather
           <span className="bg-gradient-to-br from-gray-400 to-gray-600 inline-block text-transparent bg-clip-text">

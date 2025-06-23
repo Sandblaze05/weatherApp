@@ -7,7 +7,7 @@ const ProgressBar = ({ loading }) => {
     if (loading) {
       setShowBar(true);
     } else {
-      const timeout = setTimeout(() => setShowBar(false), 1000);
+      const timeout = setTimeout(() => setShowBar(false), 5000);
       return () => clearTimeout(timeout);
     }
   }, [loading]);

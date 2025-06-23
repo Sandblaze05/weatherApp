@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Sunrise,
   Sunset,
@@ -18,6 +18,27 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const WeatherContent = ({ weatherData, forecastData }) => {
   const [progress, setProgress] = useState(0);
+  const scrollRef = useRef(null);
+
+  const handleRight = () => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth;
+      scrollRef.current.scroll({
+        left: scrollRef.current.scrollLeft + scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleLeft = () => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth;
+      scrollRef.current.scroll({
+        left: scrollRef.current.scrollLeft - scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const getProgress = () => {
     const currentTime = new Date();
@@ -74,7 +95,7 @@ const WeatherContent = ({ weatherData, forecastData }) => {
             </div>
           </div>
         </motion.div>
-        <div className="flex flex-col md:flex-row justify-center items-center p-4 mt-4 w-[100%] gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center p-4 mt-4 lg:w-[50%] md:w-[80%] w-[100%] gap-4">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -156,7 +177,10 @@ const WeatherContent = ({ weatherData, forecastData }) => {
           className="bg-gray-800 w-[90%] mt-4 h-60 p-4 rounded-2xl shadow-lg"
         >
           <div className="flex relative gap-3 h-full w-full">
-            <div className="overflow-x-auto flex flex-row gap-3 min-w-full">
+            <div
+              className="overflow-x-auto flex flex-row gap-3 min-w-full"
+              ref={scrollRef}
+            >
               {forecastData.forecastday[0].hour.map((day, idx) => (
                 <div
                   key={idx}
@@ -164,19 +188,29 @@ const WeatherContent = ({ weatherData, forecastData }) => {
                 >
                   <p className="text-sm mb-1">{day.time.slice(10, 16)}</p>
                   <img src={day.condition.icon} alt="condition" />
-                  <div className="flex overflow-hidden w-full">
-                    <Thermometer />
+                  <div className="flex overflow-hidden justify-center items-center w-full h-full">
+                    <Thermometer className="w-[20px] h-[20px]"/>
                     <p className="font-medium text-lg antialiased">
                       {day.temp_c}°C
                     </p>
                   </div>
+                  <div className="flex justify-center items-end overflow-hidden w-full h-full text-xs">
+                    <Droplet className="w-[15px] h-[15px] fill-white/50 text-white/50" />
+                    <p>{day.chance_of_rain}%</p>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="absolute w-5 h-full left-0 top-1/2 transform -translate-y-1/2 rounded-r-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center">
+            <div
+              className="absolute w-5 h-full left-0 top-1/2 transform -translate-y-1/2 rounded-r-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center hover:cursor-pointer hover:bg-gray-800 transition-colors"
+              onClick={handleLeft}
+            >
               {"<"}
             </div>
-            <div className="absolute w-5 h-full right-0 top-1/2 transform -translate-y-1/2 rounded-l-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center">
+            <div
+              className="absolute w-5 h-full right-0 top-1/2 transform -translate-y-1/2 rounded-l-full bg-gray-800/80 p-3 backdrop-blur-xl flex justify-center items-center hover:cursor-pointer hover:bg-gray-800 transition-colors"
+              onClick={handleRight}
+            >
               {">"}
             </div>
           </div>
