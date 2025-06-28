@@ -4,9 +4,9 @@ body {
   @apply bg-gradient-to-b from-gray-900 to-gray-800;
   @apply text-gray-200;
   @apply font-sans antialiased;
-  @apply min-h-screen;
-  @apply flex flex-col;
-  @apply items-center;
+  /* @apply min-h-screen; */
+  /* @apply flex flex-col;
+  @apply items-center; */
 }
 
 @keyframes progress {

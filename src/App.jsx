@@ -4,11 +4,15 @@ import { useState } from "react";
 import ProgressBar from "./components/ProgressBar";
 import WeatherContent from "./components/WeatherContent";
 import { Suspense } from "react";
+import { AnimatePresence } from "framer-motion";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
+import SignUp from "./pages/SignUp";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const API_URL = "https://api.weatherapi.com/v1/";
 
-const App = () => {
+const Content = () => {
   const [suggestion, setSuggestion] = useState([
     "New Delhi",
     "Mumbai",
@@ -129,7 +133,7 @@ const App = () => {
         />
       </header>
 
-      <div className="flex flex-col items-center justify-center mt-4 ">
+      <div className="flex flex-col items-center justify-center mt-4 min-h-screen ">
         {!weatherData ? (
           <div className="text-transparent bg-gradient-to-r from-[#eee] from-40% via-[#9a9999] via-50% to-[#eee] to-60% bg-clip-text mt-4 bg-size-[300%] animate-shimmer" style={{ backgroundPositionX: '100%' }}>Select a city to see the weather</div>
         ) : (
@@ -140,6 +144,20 @@ const App = () => {
         )}
       </div>
     </>
+  );
+};
+
+const App = () => {
+  return (
+    <AnimatePresence>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Content />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
+    </AnimatePresence>
   );
 };
 
